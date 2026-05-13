@@ -1,6 +1,5 @@
-import "./App.module.css";
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import ReactPaginate from "react-paginate";
 import toast, { Toaster } from "react-hot-toast";
 import type { Movie } from "../../types/movie";
@@ -37,6 +36,7 @@ function App() {
     queryFn: () => fetchMovies(query, page),
 
     enabled: query !== "",
+    placeholderData: keepPreviousData,
   });
 
   const movies = data?.results ?? [];
@@ -56,7 +56,7 @@ function App() {
 
       {!!movies.length && <MovieGrid movies={movies} onSelect={openModal} />}
 
-      {totalPages > 1 && (
+      {!isLoading && totalPages > 1 && (
         <ReactPaginate
           pageCount={totalPages}
           pageRangeDisplayed={5}
