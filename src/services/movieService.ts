@@ -7,17 +7,21 @@ export interface GetMovieResponse {
 }
 
 const movieKey = import.meta.env.VITE_TMDB_TOKEN;
-const url = `https://api.themoviedb.org/3/search/movie`;
+const url = "https://api.themoviedb.org/3/search/movie";
 
 export default async function fetchMovies(
   query: string,
   page: number,
 ): Promise<GetMovieResponse> {
   const { data } = await axios.get<GetMovieResponse>(url, {
-    params: { query, page },
+    params: {
+      query,
+      page,
+    },
     headers: {
       Authorization: `Bearer ${movieKey}`,
     },
   });
+
   return data;
 }
